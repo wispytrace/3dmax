@@ -28,7 +28,7 @@ class ModelService():
 
         rt.loadMaxFile(modelPath)
 
-        rt.
+        rt.redrawViews()
 
 
     def loadConfig(self):
@@ -43,14 +43,14 @@ class ModelService():
 
         plantRadius = ModelConfig[self.modelName]['plantRadius']
 
-        outPutPath = ModelConfig[self.modelName]['outPutPath']
+        outputPath = ModelConfig[self.modelName]['outputPath']
 
-        return modelPath, camPos, objPos, plantPos, plantRadius, outPutPath
+        return modelPath, camPos, objPos, plantPos, plantRadius, outputPath
 
 
     def getData(self):
 
-        self.runtimeCamera.getFrame(outputPath=self.outPutPath)
+        self.runtimeCamera.getFrame(outputPath=self.outputPath)
 
         with open(self.outputPath, "rb") as f:
 
