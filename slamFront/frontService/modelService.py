@@ -3,7 +3,9 @@ from pymxs import runtime as rt
 from slamFront.utlis.camera import RuntimeCamera
 from slamFront.utlis.plant import RuntimePlant
 from slamFront.frontService.config import ModelConfig
-from slamBackend.procotol.slamDataMessage import *
+from procotol.slamDataMessage import *
+from procotol.commonMessage import *
+import time
 
 class ModelService():
 
@@ -25,6 +27,8 @@ class ModelService():
         rt.resetMaxFile(rt.name('noPrompt'))
 
         rt.loadMaxFile(modelPath)
+
+        rt.
 
 
     def loadConfig(self):
@@ -57,3 +61,16 @@ class ModelService():
         strData = slamData.dumpJson()
 
         return strData
+
+
+    def callBack(self, res):
+
+        if res.status != StatusType.STATUS_OK:
+
+            raise Exception("backend service error!")
+
+        slamRes = SlamRes.loadJson(res.data)
+
+        print(slamRes.result)
+
+        time.sleep(2)

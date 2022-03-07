@@ -1,6 +1,3 @@
-
-from slamBackend.procotol import slamDataMessage, commonMessage
-
 class PrintService():
 
 

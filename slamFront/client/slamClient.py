@@ -1,7 +1,6 @@
 import socket
-from slamBackend.client import config
-from slamBackend.procotol.commonMessage import *
-import time
+from slamFront.client import config
+
 
 class SlamClient:
 

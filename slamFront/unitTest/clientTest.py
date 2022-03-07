@@ -1,6 +1,6 @@
 import socket
-from slamBackend.procotol.commonMessage import *
-from slamBackend.procotol.slamDataMessage import *
+from procotol.commonMessage import *
+from procotol.slamDataMessage import *
 def main():
     ip_port = ('127.0.0.1', 6789)
 

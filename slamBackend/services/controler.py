@@ -1,6 +1,6 @@
 from slamBackend.services.print import PrintService
-from slamBackend.procotol.commonMessage import *
-from slamBackend.procotol.slamDataMessage import *
+from procotol.commonMessage import *
+from procotol.slamDataMessage import *
 
 class ServiceControler:
 

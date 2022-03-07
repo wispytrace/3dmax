@@ -1,5 +1,4 @@
 from client import slamClient
-from procotol.commonMessage import *
 from slamFront.unitTest.frontService import FrontService
 
 if __name__ == '__main__':
