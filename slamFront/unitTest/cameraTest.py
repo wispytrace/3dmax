@@ -18,6 +18,6 @@ if __name__ == '__main__':
 
     my.setPose(camPos=rt.Point3(200,0,0), objPos=rt.Point3(-200,0,0))
 
-    my.getFrame()
+    my.getFrame("H:\\code\\3dmax\\3dRender\\render.jpg")
     
     print(os.path.dirname(os.path.realpath(__file__)) + "\\..\\utlis")

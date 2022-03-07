@@ -1,5 +1,5 @@
 from pymxs import runtime as rt
-
+import os
 
 class RuntimeCamera():
     

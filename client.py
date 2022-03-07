@@ -9,9 +9,9 @@ from procotol.commonMessage import *
 
 if __name__ == '__main__':
 
-    testService = ModelService("demo1")
+    modelService = ModelService("demo1")
 
-    myClient = slamClient.SlamClient(ServiceType.PRINT_SERVICE, testService)
+    myClient = slamClient.SlamClient(ServiceType.PRINT_SERVICE, modelService)
 
     myClient.excuteService()
 
