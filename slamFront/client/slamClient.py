@@ -1,6 +1,6 @@
 import socket
 from slamFront.client import config
-from procotol.commonMessage import  *
+from procotol.commonMessage import *
 
 class SlamClient:
 
@@ -54,7 +54,7 @@ class SlamClient:
 
             if res.status != StatusType.STATUS_OK:
 
-                raise  Exception('backend service error please reconnect!')
+                raise Exception('backend service error please reconnect!')
 
             self.frontService.callBack(res.data)
 
