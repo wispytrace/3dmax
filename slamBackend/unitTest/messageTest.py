@@ -1,5 +1,5 @@
-from procotol.commonMessage import ServiceType, ClientMessage, CommandType, SlamData
-
+from procotol.commonMessage import *
+from procotol.slamDataMessage import *
 from matplotlib import pyplot as  plt
 
 from io import BytesIO
@@ -26,8 +26,10 @@ if __name__ == "__main__":
     print(Dict.type, Dict.command)
 
     data = Dict.data
+    print(type(data))
 
     slamData = SlamData.loadJson(data)
+    print(slamData)
 
     image = plt.imread(BytesIO(slamData.image), "jpg")
 

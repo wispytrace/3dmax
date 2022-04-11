@@ -5,7 +5,7 @@ import json
 class ServiceType(IntEnum):
 
     PRINT_SERVICE = 1
-
+    SLAM_SERVICE = 2
 
 class CommandType(IntEnum):
 
@@ -19,7 +19,9 @@ class StatusType(IntEnum):
 
     STATUS_OK = 1
 
-    STATUS_Error = -1
+    STATUS_CLOSE = 2
+
+    STATUS_ERROR = -1
 
 
 # image is bytes
@@ -27,6 +29,7 @@ class StatusType(IntEnum):
 
 
 # data is string
+
 
 class ClientMessage:
 

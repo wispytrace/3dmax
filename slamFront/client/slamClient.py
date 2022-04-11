@@ -27,7 +27,9 @@ class SlamClient:
 
         res = ServerMessage.loadJson(res.decode("utf-8"))
 
-        if res.status != StatusType.STATUS_OK:
+        print(res.data)
+
+        if res.status == StatusType.STATUS_ERROR:
 
             e = Exception('init failed please reconnect')
 
@@ -52,9 +54,17 @@ class SlamClient:
 
             res = ServerMessage.loadJson(res.decode("utf-8"))
 
-            if res.status != StatusType.STATUS_OK:
+            if res.status == StatusType.STATUS_ERROR:
 
                 raise Exception('backend service error please reconnect!')
 
+            if res.status == StatusType.STATUS_CLOSE:
+
+                print("slamServer has closed connect!")
+                return
+
             self.frontService.callBack(res.data)
+
+
+
 

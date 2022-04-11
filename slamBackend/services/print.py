@@ -1,4 +1,4 @@
-class PrintService():
+class PrintService:
 
 
     def __init__(self, message):

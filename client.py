@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     modelService = ModelService("demo1")
 
-    myClient = slamClient.SlamClient(ServiceType.PRINT_SERVICE, modelService)
+    myClient = slamClient.SlamClient(ServiceType.SLAM_SERVICE, modelService)
 
     myClient.excuteService()
 

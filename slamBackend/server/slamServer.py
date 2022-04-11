@@ -66,7 +66,7 @@ class SlamServer:
 
     def close(self):
         
-        self.listenSocket.close
+        self.listenSocket.close()
             
 
 
