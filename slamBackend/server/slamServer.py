@@ -50,18 +50,23 @@ class SlamServer:
                 if data == '':
                     raise Exception("client connect has benn closed")
 
-                ret = self.serviceControler.startService(data)
+                strRet = self.serviceControler.runService(data)
 
-                connect.send(ret.encode("utf-8"))
+                connect.send(strRet.encode("utf-8"))
 
+            except GeneratorExit as g:
+
+                print("client has normally closed connect")
+                connect.close()
+                break
 
             except Exception as e:
 
                 print("exceptionError:"+str(e))
-
+                connect.close()
                 break
 
-        connect.close()
+
 
 
     def close(self):

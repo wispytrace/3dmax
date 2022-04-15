@@ -23,9 +23,6 @@ class Detector:
 
         self.target = img
 
-    def serEdgeChecker(self, check):
-
-        self.edgeChecker = check
 
     def _generate_segments(self, img):
 
@@ -94,7 +91,8 @@ class Detector:
     def getDiff(self, image):  # 将要裁剪成w*h的image照片 得到渐变序列
         diff = []
         im = cv.resize(image, dsize=(self.hashHeight, self.hashWidth))
-        imgray = cv.cvtColor(im, cv.COLOR_RGB2GRAY)
+        imgray = im
+        # imgray = cv.cvtColor(im, cv.COLOR_RGB2GRAY)
 
         for row in range(self.hashHeight):
             for col in range(self.hashWidth - 1):
@@ -146,7 +144,10 @@ class Detector:
 
         # self.showRegions(regions, img)
 
-        return rect['min_x'], rect['min_y'], rect['max_x'], rect['max_y']
+        x = int((rect['min_x'] + rect['max_x']) / 2)
+        y = int((rect['min_y'] + rect['max_y']) / 2)
+
+        return x, y, (rect['min_x'], rect['min_y'], rect['max_x'], rect['max_y'])
 
     def showRegions(self, regions, img):
 

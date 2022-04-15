@@ -4,6 +4,8 @@ from slamBackend.services.slamServicePkg.orbSlam.featureEx.orbExtractor import O
 from slamBackend.services.slamServicePkg.orbSlam.mapInfo.frame import Frame
 from slamBackend.services.slamServicePkg.orbSlam.mapInfo.mapPoint import MapPoint
 from slamBackend.services.slamServicePkg.orbSlam.graphOptimizer.graph import Graph
+from slamBackend.services.slamServicePkg.objectDetect.detect import Detector
+from slamBackend.services.slamServicePkg.edgeOperator.edge import Canny
 import math
 import numpy as np
 import matplotlib.pyplot as plt
@@ -171,6 +173,10 @@ class ORBSlam:
 
         self.setFrameConstarin(frame, targetX, targetY)
 
+    def setInitNode(self, contrains):
+
+        self.graph.setInitNode(contrains)
+
     def reconstrcutGraph(self):
 
         self.graph.reconstrcutGraph()
@@ -273,7 +279,11 @@ class ORBSlam:
                 mapPoint.nearbyImg = img
                 self.mapPointList[mid] = mapPoint
 
+    def printRobotPos(self):
 
+        for k, v in self.graph.nodeList.items():
+            pos = self.graph.position[self.graph.matrixIndex[k]]
+            print('id={}, pos= x: {} y : {}'.format(k, pos[0], pos[1]))
 
     def showImg(self):
 
@@ -311,26 +321,37 @@ if __name__ == '__main__':
 
     im1 = cv2.imread('H:\HkResearch\code\PythonRobotics\orbSlam\\r1.jpg', 0)
     im2 = cv2.imread('H:\HkResearch\code\PythonRobotics\orbSlam\\r2.jpg', 0)
+    target = cv2.imread("H:\HkResearch\code\PythonRobotics\orbSlam\\target.jpg", 0)
     start = time.time()
+    detector = Detector()
+    edge = Canny()
+    detector.setTarget(target)
     orb = ORBSlam()
-    # cons = orb.graph.getConstrain(0, 0)
-    # orb.graph.setInitNode(cons)
-    # orb.receiveImg(im1, 0, 0)
-    # k = len(orb.mapPointList) + 1
+    cons = orb.graph.getConstrain(20, 20)
+    orb.graph.setInitNode(cons)
+    img1Edg = edge.check(im1)
+    x, y, _ = detector.detect(im1, img1Edg)
+    print(x, y)
+    orb.receiveImg(im1, x, y)
+    k = len(orb.mapPointList) + 1
     # orb.graph.addRobotNode(orb.graph.getConstrain(295, -165))
-    # # orb.graph.addRobotNode()
-    # orb.receiveImg(im2, 0, 0)
-    # orb.graph.reconstrcutGraph()
-    # end = time.time()
-    # print(orb.graph.position[k])
-    # print(end-start)
+    img2Edg = edge.check(im2)
+    x, y, _ = detector.detect(im2, img2Edg)
+    orb.graph.addRobotNode()
+    orb.receiveImg(im2, x, y)
+    orb.graph.reconstrcutGraph()
+    end = time.time()
+    print(orb.graph.position[k], orb.graph.position[0])
+    print(end-start)
     # orb.showImg()
     # print(len(orb.mapPointList))
-    img = cv2.imread('H:\code\\3dmax\\test.jpg', 0)
-    orb.createMap(img)
-    print(orb.mapPointList[0].gx, orb.mapPointList[0].gy, orb.mapPointList[0].describe, orb.mapPointList[0].nearbyImg)
-    k = len(orb.mapPointList)
-    orb.saveMap()
-    orb.loadMap()
-    print(orb.mapPointList[k].gx, orb.mapPointList[k].gy, orb.mapPointList[k].describe, orb.mapPointList[k].nearbyImg)
+
+    ## saveTest
+    # img = cv2.imread('H:\code\\3dmax\\test.jpg', 0)
+    # orb.createMap(img)
+    # print(orb.mapPointList[0].gx, orb.mapPointList[0].gy, orb.mapPointList[0].describe, orb.mapPointList[0].nearbyImg)
+    # k = len(orb.mapPointList)
+    # orb.saveMap()
+    # orb.loadMap()
+    # print(orb.mapPointList[k].gx, orb.mapPointList[k].gy, orb.mapPointList[k].describe, orb.mapPointList[k].nearbyImg)
 

@@ -9,7 +9,7 @@ class ServiceControler:
     def __init__(self) -> None:
         self.service = None
 
-    def startService(self, message):
+    def runService(self, message):
 
         clientMessage = ClientMessage.loadJson(message)
 
@@ -17,20 +17,22 @@ class ServiceControler:
 
         if serType == ServiceType.PRINT_SERVICE:
 
-            res = PrintService(clientMessage).run()
+            status = StatusType.STATUS_OK
 
-            res = SlamRes(res)
+            strRes = PrintService(clientMessage).run()
+
         elif serType == ServiceType.SLAM_SERVICE:
 
             if self.service is None:
                 self.service = SlamService()
 
             status, res = self.service.run(clientMessage)
+            strRes = res.dumpJson()
 
-            res = SlamRes(res)
+        serverMessage = ServerMessage(serType, status, strRes)
 
-        serverMessage = ServerMessage(ServiceType.PRINT_SERVICE, status, res.dumpJson())
+        strServerMessage = serverMessage.dumpJson()
 
-        return serverMessage.dumpJson()
+        return strServerMessage
 
 

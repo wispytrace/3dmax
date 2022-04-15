@@ -259,7 +259,7 @@ class Canny(OpBase):
 
         self.edge = canny_edg
 
-        return canny_edg
+        return self.edge
 
 
 # Laplacian算子采用二阶导数，其计算公式如下：(分别对x方向和y方向求二阶导数，并求和),个人认为噪声影响可能会很大，因为求导会放大噪声

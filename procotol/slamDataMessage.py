@@ -1,6 +1,6 @@
 import base64
 import json
-
+from procotol.controlModel import SimpleModel
 
 class SlamData:
 
@@ -41,16 +41,20 @@ class SlamData:
 
 class SlamRes:
 
-    def __init__(self, result):
+    def __init__(self, comment, control):
 
-        self.result = result
+        self.comment = comment
+
+        self.control = control
 
 
     def dumpJson(self):
 
         jsonDict = dict()
 
-        jsonDict['result'] = self.result
+        jsonDict['comment'] = self.comment
+
+        jsonDict['control'] = self.control.dumpJson()
 
         jsonStr = json.dumps(jsonDict)
 
@@ -62,9 +66,11 @@ class SlamRes:
 
         jsonDict = json.loads(jsonStr)
 
-        result = jsonDict['result']
+        comment = jsonDict['comment']
 
-        slamRes = SlamRes(result)
+        control = SimpleModel.loadJson(jsonDict['control'])
+
+        slamRes = SlamRes(comment, control)
 
         return slamRes
 
