@@ -14,7 +14,7 @@ class RuntimePlant():
 		
 		self.traces = []
 		
-		self.minRadius = 0.001
+		self.minRadius = 0.0001
 		
 		self.maxRadius = 0.1
 
@@ -49,7 +49,7 @@ class RuntimePlant():
 		
 		self.nextPos = pos
 		
-		self.makeTrace()
+		# self.makeTrace()
 		
 		self.object.pos = self.nextPos
 		

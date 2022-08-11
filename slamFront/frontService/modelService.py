@@ -5,6 +5,8 @@ from slamFront.utlis.plant import RuntimePlant
 from slamFront.frontService.config import ModelConfig
 from procotol.slamDataMessage import *
 from procotol.commonMessage import *
+from procotol.controlModel import *
+
 import time
 
 class ModelService():
@@ -46,11 +48,12 @@ class ModelService():
 
 
 
-    def getData(self):
-        
-        self.runtimeCamera.getFrame(outputPath=self.outputPath)
+    def getData(self, path):
 
-        with open(self.outputPath, "rb") as f:
+        self.runtimePlant.hideTraces()
+        self.runtimeCamera.getFrame(outputPath=self.outputPath)
+        self.runtimePlant.showTraces()
+        with open(path, "rb") as f:
 
             data = f.read()
 
@@ -61,10 +64,26 @@ class ModelService():
         return strData
 
 
+    def getNextPosition(self, sx, sy, control):
+
+        distance = 1 / 2 * control.speedUp * (control.upTime ** 2) + 1 / 2 * control.speedDown * (
+                    control.speedUp * control.upTime / control.speedDown) ** 2
+        deg = control.angle
+        x = sx + math.cos(deg) * distance
+        y = sy + math.sin(deg) * distance
+
+        return x, y
+
     def callBack(self, res):
 
         slamRes = SlamRes.loadJson(res)
 
-        print(slamRes.result)
+        control = slamRes.control
+
+        x, y = self.getNextPosition(0, 0, control)
+
+        self.runtimePlant.doMove(rt.Point3(x, y, 0)+self.runtimePlant.currentPos)
+
+        print(slamRes.comment)
 
         time.sleep(self.sampleTime)

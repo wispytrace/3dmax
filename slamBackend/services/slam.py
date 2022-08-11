@@ -1,3 +1,5 @@
+import copy
+
 from slamBackend.services.slamServicePkg.edgeOperator.edge import Canny
 from slamBackend.services.slamServicePkg.objectDetect.detect import Detector
 from slamBackend.services.slamServicePkg.orbSlam.orbSlam import ORBSlam
@@ -38,11 +40,12 @@ class SlamService:
 
         slamData = SlamData.loadJson(message.data)
         image = cv.imdecode(np.array(bytearray(slamData.image), dtype='uint8'), cv.IMREAD_UNCHANGED)
-        cv.imwrite('test.jpg', image)
+        dImage = copy.deepcopy(image)
         image = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
 
         edge = self.edgeCheker.check(image)
-        x, y, _ = self.detector.detect(image, edge)
+        x, y, rect, rections = self.detector.detect(image, edge)
+        self.detector.showRegions(rections, dImage, rect)
         self.orbSlam.receiveImg(image, x, y)
         self.orbSlam.reconstrcutGraph()
         self.orbSlam.printRobotPos()

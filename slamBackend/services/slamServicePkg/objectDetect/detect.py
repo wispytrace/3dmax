@@ -147,13 +147,18 @@ class Detector:
         x = int((rect['min_x'] + rect['max_x']) / 2)
         y = int((rect['min_y'] + rect['max_y']) / 2)
 
-        return x, y, (rect['min_x'], rect['min_y'], rect['max_x'], rect['max_y'])
+        return x, y, (rect['min_x'], rect['min_y'], rect['max_x'], rect['max_y']), regions
 
-    def showRegions(self, regions, img):
+    def showRegions(self, regions, img, rect=None):
+
+        if rect is not None:
+            img = cv.rectangle(img, (rect[0], rect[1]), (rect[2], rect[3]), (255, 0, 0), 2)
 
         for k,v in regions.items():
             img = cv.rectangle(img, (v['min_x'], v['min_y']), (v['max_x'], v['max_y']), (0, 255, 0), 1)
-        cv.imshow('rect', img)
+        # cv.imshow('rect', img)
+        cv.imwrite('sample.jpg', img)
+
 
 
 # if __name__ == '__main__':

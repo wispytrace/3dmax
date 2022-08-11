@@ -17,7 +17,11 @@ class SlamClient:
 
     def initService(self):
 
-        clientMessage = ClientMessage(self.serviceType, CommandType.START_SERVICE, "")
+
+        strData = self.frontService.getData("H:\code\\3dmax\\target.jpg")
+
+
+        clientMessage = ClientMessage(self.serviceType, CommandType.START_SERVICE, strData)
 
         clientMessage = clientMessage.dumpJson().encode('utf-8')
 
@@ -42,7 +46,7 @@ class SlamClient:
 
         while(True):
 
-            strData = self.frontService.getData()
+            strData = self.frontService.getData(self.frontService.outputPath)
 
             clientMessage = ClientMessage(self.serviceType, CommandType.RUNTIME_SERVICE, strData)
 
